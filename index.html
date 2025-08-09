@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FilamentBoxV4 Wiki</title>
+  <style>
+    :root {
+      --color-bg-light: #f9f9f9;
+      --color-text-light: #222;
+      --color-bg-dark: #121212;
+      --color-text-dark: #eee;
+      --primary-color: #4a90e2;
+      --transition-speed: 0s;
+      --header-height: 56px;
+      --max-width: 800px;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--color-bg-light);
+      color: var(--color-text-light);
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: var(--header-height);
+    }
+
+    body.dark {
+      background-color: var(--color-bg-dark);
+      color: var(--color-text-dark);
+    }
+
+
+    header {
+        width: 100%;
+        height: var(--header-height);
+        background-color: var(--primary-color);
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        z-index: 1000;
+        flex-wrap: wrap; /* allow wrapping */
+        gap: 10px;
+        box-sizing: border-box;
+    }
+
+    header h1 {
+      font-size: 1.25rem;
+      margin: 0;
+    }
+
+    .topbar-buttons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap; /* allow buttons to wrap */
+        max-width: 50vw; /* limit width so buttons won't overflow */
+        min-width: 0; /* allow shrinking */
+        justify-content: flex-end;
+    }   
+
+    button {
+        min-width: 80px;
+        white-space: nowrap;
+        flex-shrink: 1;
+        padding: 6px 12px;
+        border: 2px solid white;
+        border-radius: 4px;
+        background-color: transparent;
+        color: white;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+        box-sizing: border-box;
+    }
+
+/* Smaller screens: stack buttons vertically */
+    @media (max-width: 600px) {
+        .topbar-buttons {
+            flex-direction: column;
+            max-width: 100%;
+            width: 100%;
+    }
+        button {
+            width: 100%;
+            min-width: unset;
+    }
+    }
+
+    button:hover {
+      background-color: white;
+      color: var(--primary-color);
+    }
+
+    main {
+      max-width: var(--max-width);
+      padding: 20px;
+      width: 100%;
+    }
+
+    h2 {
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 6px;
+      margin-top: 1.5em;
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Dark mode button styles */
+    body.dark button {
+      border-color: white;
+      color: white;
+    }
+
+    body.dark button:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1em;
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: auto;
+    }
+    /* The sidebar menu */
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 160px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #f0f0f0; /* Black */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px;
+}
+
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: var(--primary-color);
+  display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #4e92d2;
+}
+
+/* Style page content */
+.main {
+  margin-left: 160px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FilamentBoxV4 Wiki</h1>
+    <label id="homeButton" onclick="window.location.href='index.html'">Home</label>
+    <div class="topbar-buttons">
+      <button id="darkModeToggle" aria-label="Dark mode">Dark Mode</button>
+      <button onclick="window.location.href='gen.html'">Generator</button>
+    </div>
+  </header>
+
+  <!-- Side navigation -->
+<div class="sidenav">
+    <a href="index.html">Home</a>
+    <a href="assembly.html">Assembly</a>
+    <a href="gen.html">Generator</a>
+    <a href="#">About</a>
+  </div>
+  
+
+  <main>
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>Welcome to the FilamentBoxV4 wiki! This project is a 3D printed filament storage box designed to keep your filament organized.</p>
+    </section>
+
+    <section id="features">
+      <h2>Features</h2>
+      <ul>
+        <li>Ability to be sealed to a box with desiccant holder</li>
+        <li>Spool rollers compatible with various spool sizes</li>
+        <li>Smooth Rolling Spool Holders For Easier Spool Retraction</li>
+        <li>Compact and stackable design</li>
+        <li>Affordable and easy to print</li>
+        <li>Can be printed with any FDM printer</li>
+        <li>Can be printed in any color</li>
+      </ul>
+    </section>
+
+    <section id="assembly">
+      <h2>Assembly Instructions</h2>
+      <p>View the assembly instructions <a href="assembly.html">here</a>.</p>
+    </section>
+
+    <section id="downloads">
+      <h2>Downloads</h2>
+      <p>Get the latest STL files, made for your configuration with our stl generator <a href="gen.html">here</a>.</p>
+    </section>
+
+    <section id="faq">
+      <h2>FAQ</h2>
+      <p><strong>Q:</strong> What filament is recommended for printing?<br />
+         <strong>A:</strong> PLA or PETG is recommended for durability and ease of printing.</p>
+      <p><strong>Q:</strong> Can I fit larger spools?<br />
+         <strong>A:</strong> The design supports up to 1kg spools, but modifications can be made for larger sizes.</p>
+    </section>
+  </main>
+
+  <footer>
+   2025 FilamentBoxV4
+  </footer>
+
+  <script>
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const body = document.body;
+
+    // Load dark mode preference
+    if(localStorage.getItem('darkMode') === 'enabled') {
+      body.classList.add('dark');
+      toggleBtn.textContent = 'Light Mode';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      if(body.classList.contains('dark')) {
+        toggleBtn.textContent = 'Light Mode';
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        toggleBtn.textContent = 'Dark Mode';
+        localStorage.setItem('darkMode', 'disabled');
+      }
+    });
+  </script>
+</body>
+</html>
