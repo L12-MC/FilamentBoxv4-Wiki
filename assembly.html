@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FilamentBoxV4 Wiki</title>
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <script src="https://kit.fontawesome.com/e386410add.js" crossorigin="anonymous"></script>
   <style>
     :root {
       --color-bg-light: #f9f9f9;
@@ -72,7 +73,6 @@
     }   
 
     button {
-        min-width: 80px;
         white-space: nowrap;
         flex-shrink: 1;
         padding: 6px 12px;
@@ -147,7 +147,7 @@
     /* The sidebar menu */
 .sidenav {
   height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 160px; /* Set the width of the sidebar */
+  width: 150px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
@@ -160,16 +160,19 @@
 
 /* The navigation menu links */
 .sidenav a {
-  padding: 6px 8px 6px 16px;
+  padding: 6px 8px 6px 8px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 15px;
   color: var(--primary-color);
   display: block;
+  justify-self: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-  color: #4e92d2;
+  color: #6eb4f5;
+  font-weight: bold;
 }
 
 /* Style page content */
@@ -183,25 +186,90 @@
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #383838;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
   </style>
 </head>
 <body>
   <header>
     <h1>FilamentBoxV4 Wiki</h1>
-    <label id="homeButton" onclick="window.location.href='index.html'">Home/Assembly</label>
     <div class="topbar-buttons">
-      <button id="darkModeToggle" aria-label="Dark mode">Dark Mode</button>
-      <button onclick="window.location.href='gen.html'">Generator</button>
+      <!--button id="darkModeToggle" aria-label="Dark mode">Dark Mode</button-->
+      <!--label class="switch">
+        <input type="checkbox" id="darkCheckbox" onclick="toggleDarkMode()">
+        <span class="slider round"></span>
+      </label-->
+      <button><i class="fa-brands fa-github"></i> Github Repo</button>
     </div>
   </header>
 
 
     <!-- Side navigation -->
 <div class="sidenav">
-    <a href="index.html">Home</a>
-    <a href="assembly.html">Assembly</a>
-    <a href="gen.html">Generator</a>
-    <a href="#">About</a>
+    <a href="index.html">Home <i class="fa-solid fa-house"></i></a>
+    <a href="assembly.html">Assembly <i class="fa-solid fa-book"></i></a>
+    <a href="gen.html">Generator <i class="fa-solid fa-scroll"></i></a>
+    <a href="#">About <i class="fa-solid fa-circle-info"></i></a>
   </div>
 
   <main>
@@ -232,25 +300,25 @@
   </footer>
 
   <script>
-    const toggleBtn = document.getElementById('darkModeToggle');
+    const toggleBtn = document.getElementsById("darkCheckbox");
     const body = document.body;
 
     // Load dark mode preference
     if(localStorage.getItem('darkMode') === 'enabled') {
       body.classList.add('dark');
-      toggleBtn.textContent = 'Light Mode';
+      toggleBtn.toggle()
     }
 
-    toggleBtn.addEventListener('click', () => {
-      body.classList.toggle('dark');
-      if(body.classList.contains('dark')) {
-        toggleBtn.textContent = 'Light Mode';
-        localStorage.setItem('darkMode', 'enabled');
-      } else {
-        toggleBtn.textContent = 'Dark Mode';
-        localStorage.setItem('darkMode', 'disabled');
+    toggleDarkMode();{
+      if(toggleBtn.checked == true){
+        localStorage.setItem('darkMode', 'enabled')
+        body.classList.add('dark')
       }
-    });
+      if(toggleBtn.checked == false){
+        localStorage.setItem('darkMode', 'disabled')
+        body.classList.remove('dark')
+      }
+    }
   </script>
 </body>
 </html>
