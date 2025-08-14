@@ -130,6 +130,12 @@ window.addEventListener('load', () => {
         filePromises.push(fetchBlob(partFiles['Roller']).then(blob => ({ name: rollerName, blob })));
       }
 
+      const bomUrl = `bom/bom_${len}_spool.csv`; // This is the source file URL
+      filePromises.push(fetchBlob(bomUrl).then(blob => ({
+        name: `bom_${len}_spool.csv`, // Save as CSV in the ZIP
+        blob
+      })));
+
       // Wait for all files, then add to zip
       const files = await Promise.all(filePromises);
       for (const { name, blob } of files) {
