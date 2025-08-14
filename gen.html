@@ -52,6 +52,8 @@
     <div id="viewer" class="viewer"><img src="preview/images/1_spool.png" id="viewerImg" alt="assembly preview" class="center-img"></div>
   </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script>
 window.addEventListener('load', () => {
   const configMap = {
@@ -101,54 +103,54 @@ window.addEventListener('load', () => {
     if (lengthSelect.value == 4) {
       previewImage.src = 'preview/images/4_spools.png'
     }
-
-    clearScene();
-    loadImgPreview();
   }
 
   downloadBtn.addEventListener('click', async () => {
-    const len = parseInt(lengthSelect.value);
-    const cfg = configMap[len];
-    const zip = new JSZip();
+    try {
+      const len = parseInt(lengthSelect.value, 10);
+      const cfg = configMap[len];
+      if (!cfg) throw new Error(`No config for length ${len}`);
 
+      const zip = new JSZip();
 
+      // Gather all fetches first
+      const filePromises = [];
 
-    // Add base parts
-    cfg.parts.forEach(partName => {
-      if (partFiles[partName]) {
-        zip.file(partFiles[partName].split('/').pop(), fetchSync(partFiles[partName]));
+      // Base parts
+      for (const partName of cfg.parts) {
+        const url = partFiles[partName];
+        if (!url) continue;
+        const name = url.split('/').pop();
+        filePromises.push(fetchBlob(url).then(blob => ({ name, blob })));
       }
-    });
 
-    // Add rollers
-    
-    zip.file(`roller_x${cfg.rollers}.stl`, fetchSync(partFiles['Roller']));
-    
+      // Roller
+      if (partFiles['Roller']) {
+        const rollerName = `roller_x${cfg.rollers}.stl`;
+        filePromises.push(fetchBlob(partFiles['Roller']).then(blob => ({ name: rollerName, blob })));
+      }
 
-    const content = await zip.generateAsync({ type: 'blob' });
-    saveAs(content, `FilamentBoxV4_${len}long.zip`);
+      // Wait for all files, then add to zip
+      const files = await Promise.all(filePromises);
+      for (const { name, blob } of files) {
+        zip.file(name, blob);
+      }
+
+      const content = await zip.generateAsync({ type: 'blob' });
+      saveAs(content, `FilamentBoxV4_${len}long.zip`);
+    } catch (err) {
+      console.error(err);
+      alert(`Couldn't build zip: ${err.message}`);
+    }
   });
 
-  async function fetchSync(url) {
+  async function fetchBlob(url) {
     const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`Failed to fetch ${url} (${resp.status})`);
     return await resp.blob();
   }
 
-  function loadImgPreview() {
-    if (lengthSelect.value == 1) {
-      previewImage.src = 'preview/images/1_spool.png'
-    }
-    if (lengthSelect.value == 2) {
-      previewImage.src = 'preview/images/2_spool.png'
-    }
-    if (lengthSelect.value == 3) {
-      previewImage.src = 'preview/images/3_spool.png'
-    }
-    if (lengthSelect.value == 4) {
-      previewImage.src = 'preview/images/4_spool.png'
-    }
-  }
-  
+
 
   
 
